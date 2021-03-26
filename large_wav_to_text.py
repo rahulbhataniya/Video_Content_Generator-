@@ -23,14 +23,12 @@ def get_large_audio_transcription(path):
     and apply speech recognition on each of these chunks
     """
     audio_filename = "output_wave2.wav"
-    
-    os.system(f'cmd /c " ffmpeg -i {path} -vn {audio_filename}"')
+    os.system(f'cmd /c " ffmpeg -i {path} -codec:a libmp3lame -qscale:a 2 {audio_filename}"')
+    #os.system(f'cmd /c " ffmpeg -i {path} -vn -ab 70 {audio_filename}"')
     path=audio_filename
-    # open the audio file using pydub
+    # open the audio file using pydub -ab 256
 
     sound = AudioSegment.from_wav(path)  
-
-   
     # split audio sound where silence is 700 miliseconds or more and get chunks
     start_end_time,chunks = split_on_silence(sound,
         # experiment with this value for your target audio file
@@ -57,8 +55,6 @@ def get_large_audio_transcription(path):
      ## start_end_subtile store the start and and time stamp and sentece related to that##
     
     ##**          .....................   **#
-
-
 
     start_end_subtitle=[]
     for i, audio_chunk in enumerate(chunks, start=1):
@@ -92,17 +88,16 @@ def get_large_audio_transcription(path):
     #################################################################################
     final_start_end_subtitle=[]
     obj=kwe.key_word_find(whole_text)    ##by importing code of key_word_extraction
-    final_keyword=obj.get_top_n(4)      ## get top x key_word
+    final_keyword=obj.get_top_n(10)      ## get top x key_word
    
     ## select only thos subtitle that have keyword 
     for l in start_end_subtitle:         
         for word in final_keyword:
             if word in l[2]:
+                print(word)
                 final_start_end_subtitle.append(l)
                 break
     return final_start_end_subtitle
-    
-    return "done_lodu"
 
 if __name__=='__main__':
     path = 'static/vd3.mp4'
