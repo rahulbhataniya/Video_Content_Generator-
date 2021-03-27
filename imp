@@ -1,0 +1,11 @@
+final_start_end_subtitle=[]
+    obj=kwe.key_word_find(whole_text)    ##by importing code of key_word_extraction
+    final_keyword=obj.get_top_n(4)      ## get top x key_word
+   
+    ## select only thos subtitle that have keyword 
+    for l in start_end_subtitle:         
+        for word in final_keyword:
+            if word in l[2]:
+                final_start_end_subtitle.append(l)
+                break
+    return final_start_end_subtitle

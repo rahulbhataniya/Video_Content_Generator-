@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Embedding Video into an HTML Page</title>
+    <style>
+        li:hover {
+  background-color: yellow;
+}
+    </style>
+</head>
+
+<body>
+
+    <section>
+        <div class="vedio_box" style="float:left; margin-right:40px" >
+            <video id="myVideo" width="320" height="240" controls>
+                <source src={{ url_for('static', filename="oops.mp4" ) }} type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </section>
+
+    <section>
+        <div class="subtitle" style="margin-right: 40px;margin-top: 20px; float: left;" >
+            {% for i in range(len) %}
+            <li id={{ time_subtitle[i][0] }} onclick="move_vedio(this.id)" > {{ time_subtitle[i][0] }} : {{ time_subtitle[i][1] }} {{ time_subtitle[i][2] }}</li>
+            {% endfor %}
+        </div>
+    </section>
+
+
+</body>
+<script>
+    var vid = document.getElementById("myVideo");
+    
+    function move_vedio(i) 
+    { 
+      vid.currentTime=i;
+    } 
+
+    
+    </script> 
+    
+
+</html>

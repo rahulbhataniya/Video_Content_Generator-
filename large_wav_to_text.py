@@ -100,5 +100,5 @@ def get_large_audio_transcription(path):
     return final_start_end_subtitle
 
 if __name__=='__main__':
-    path = 'static/vd3.mp4'
+    path = 'static/oops.mp4'
     print("\nFull text:", get_large_audio_transcription(path))

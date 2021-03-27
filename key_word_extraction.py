@@ -80,13 +80,13 @@ class key_word_find():
             ##################################################################
             # sorted_result onctaone bot word and correspondin frequency      #
             ###################################################################
-            self.keywords=[key for key in self.sorted_result.keys()]
+            self.keywords=list(set([key for key in self.sorted_result.keys()]))[:n]
             return self.keywords
 
  #11. Get the top 5 words of significance
 if __name__ == '__main__':
     #get_top_n(tf_idf_score, 20)
-    text='''I am from speak english with vanessa da com.You are so lovely.
+    text='''I am from speak english with vanessa vanessa vanessa vanessa vanessa da com.You are so lovely.
     So i get emails from students telling me when i am so glad i canunderstand everything you say.
     Putra night charan in english tv show and i can understand anything.Does this mean that your speak 
     in floor.Devika question.I want to make sure the you know exactly the truth.What's the next step when we 
