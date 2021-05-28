@@ -3,6 +3,9 @@ import os
 from pydub import AudioSegment
 from pydub.silence import split_on_silence
 import key_word_extraction as kwe
+import time
+import shutil
+#import silence_copy
 
 # create a speech recognition object
 r = sr.Recognizer()
@@ -17,15 +20,20 @@ os.system(f'cmd /c " ffmpeg -i {vedio_filename} -vn {filename}"')
 
 # a function that splits the audio file into chunks
 # and applies speech recognition
-def get_large_audio_transcription(path):
+def get_large_audio_transcription(path_target):
     """
     Splitting the large audio file into chunks
     and apply speech recognition on each of these chunks
     """
-    audio_filename = "output_wave2.wav"
-    os.system(f'cmd /c " ffmpeg -i {path} -codec:a libmp3lame -qscale:a 2 {audio_filename}"')
+    audio_filename = path_target.split('.')[0]+"."+"wav"
+    print("file name : ",audio_filename)
+    #time.sleep(2)
+    os.system(f'cmd /c " ffmpeg -i {path_target} -codec:a libmp3lame -qscale:a 2 {audio_filename}"')
     #os.system(f'cmd /c " ffmpeg -i {path} -vn -ab 70 {audio_filename}"')
+
+    print('audio file is created...........')
     path=audio_filename
+
     # open the audio file using pydub -ab 256
 
     sound = AudioSegment.from_wav(path)  
@@ -41,7 +49,7 @@ def get_large_audio_transcription(path):
     )
     #chunks=chunks_with_time[0]
     #print(start_end_time)
-    folder_name = "audio-chunks"
+    folder_name = path_target.split('.')[0]
     # create a directory to store the audio chunks
     if not os.path.isdir(folder_name):
         os.mkdir(folder_name)
@@ -97,8 +105,18 @@ def get_large_audio_transcription(path):
                 print(word)
                 final_start_end_subtitle.append(l)
                 break
+    
+    delete_files_folder(audio_filename, folder_name)
     return final_start_end_subtitle
 
+def delete_files_folder(audio_filename, folder_name):
+    shutil.rmtree(folder_name)
+    os.remove(audio_filename)
+    #delete folder after work is completedos.remove(audio_filename)  #delete audio files that are genrated
+
 if __name__=='__main__':
-    path = 'static/oops.mp4'
+    begin = time.time()
+    path = 'static\\vd_1.mp4'
     print("\nFull text:", get_large_audio_transcription(path))
+    end = time.time()
+    print(f'total time {end-begin}')
