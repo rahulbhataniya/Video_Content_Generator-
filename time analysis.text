@@ -1,0 +1,5 @@
+video length:3.5 minute
+  without trading and without multiprocessing time take:   588 second
+  with multiprocessig time taken                       :   110 second
+  with multitreading time taken                        :   51 second  (best parformance for sorter video)
+  with multitrading and multiprocessing                :   54 second  (best performence in larger video)

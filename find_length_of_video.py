@@ -8,4 +8,4 @@ def get_length(filename):
         stderr=subprocess.STDOUT)
     return float(result.stdout)
 
-print("length of video" , get_length('vd_1.mp4'))
+print("length of video" , type(get_length('vd_1.mp4')))

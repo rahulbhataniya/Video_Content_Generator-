@@ -2,8 +2,7 @@
 Various functions for finding/manipulating silence in AudioSegments
 """
 import itertools
-
-from .utils import db_to_float
+from pydub.utils import db_to_float
 
 
 def detect_silence(audio_segment, min_silence_len=1000, silence_thresh=-16, seek_step=1):
@@ -157,7 +156,7 @@ def split_on_silence(audio_segment, min_silence_len=1000, silence_thresh=-16, ke
             range_i[1] = (last_end+next_start)//2
             range_ii[0] = range_i[1]
             
-    start_end_time=[[start,end] for start ,end in output_ranges]
+    start_end_time=[[(max(start,0))//1000,(min(end,len(audio_segment)))//1000] for start ,end in output_ranges]
     chunk=[audio_segment[ max(start,0) : min(end,len(audio_segment)) ] for start,end in output_ranges]
     return start_end_time,chunk
 
