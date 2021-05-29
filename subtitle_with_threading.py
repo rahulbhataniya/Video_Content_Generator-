@@ -32,9 +32,7 @@ def get_large_audio_transcription(path_target):
     print("file name : ",audio_filename)
     #time.sleep(2)
     os.system(f'cmd /c " ffmpeg -i {path_target} -codec:a libmp3lame -qscale:a 2 {audio_filename}"')
-    #os.system(f'cmd /c " ffmpeg -i {path} -vn -ab 70 {audio_filename}"')
 
-    print('audio file is created...........')
     path=audio_filename
 
     # open the audio file using pydub -ab 256
@@ -65,7 +63,7 @@ def get_large_audio_transcription(path_target):
     whole_text=""
     def process_chunk(folder_name,chunk_data):
         nonlocal whole_text
-        print(folder_name,chunk_data)
+        #print(folder_name,chunk_data)
         audio_chunk=chunk_data[1][1]
         chunk_filename = os.path.join(folder_name, f"chunk{chunk_data[0]}.wav")
         audio_chunk.export(chunk_filename, format="wav")
@@ -82,7 +80,7 @@ def get_large_audio_transcription(path_target):
                     start_end_time=chunk_data[1][0]
                     start_end_time.append(text)
                     start_end_subtitle.append(start_end_time)
-                    print(text)
+                    #print(text)
                 whole_text+=text
 
     with concurrent.futures.ThreadPoolExecutor() as executor:
@@ -91,12 +89,14 @@ def get_large_audio_transcription(path_target):
     final_start_end_subtitle=[]
     obj=kwe.key_word_find(whole_text)    ##by importing code of key_word_extraction
     final_keyword=obj.get_top_n(10)      ## get top x key_word
-   
+
+    print('############ final keyword ################# ')
+    print(final_keyword)
     ## select only thos subtitle that have keyword 
     for l in start_end_subtitle:         
         for word in final_keyword:
             if word in l[2]:
-                print(word)
+                #print(word)
                 final_start_end_subtitle.append(l)
                 break 
     final_start_end_subtitle.sort()
@@ -106,7 +106,8 @@ def get_large_audio_transcription(path_target):
 def delete_files_folder(audio_filename, folder_name):
     shutil.rmtree(folder_name)
     os.remove(audio_filename)
-    #delete folder after work is completedos.remove(audio_filename)  #delete audio files that are genrated
+    #delete folder after work is completedos.remove(audio_filename) 
+    #delete audio files that are genrated
 
 if __name__=='__main__':
     begin = time.time()
