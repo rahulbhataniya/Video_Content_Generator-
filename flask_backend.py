@@ -7,8 +7,10 @@ app = Flask(__name__, static_folder='static')
 
 @app.route("/")
 def success():
-    path='vd_2.mp4'
-    time_subtitle = swt.get_large_audio_transcription(path)
+    path='vanesha.mp4'
+    #time_subtitle=[]
+    time_subtitle = swt.get_large_audio_transcription('static'+'/'+path)
+    time_subtitle.append(path)
     return render_template("success.html", len = len(time_subtitle),time_subtitle=time_subtitle)
 		
 if __name__ == '__main__':
