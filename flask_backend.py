@@ -4,10 +4,9 @@ import large_wav_to_text as lwt
 import subtitle_with_threading as swt
 app = Flask(__name__, static_folder='static')
   
-
 @app.route("/")
 def success():
-    path='vanesha.mp4'
+    path='que_ans_video.mp4'
     #time_subtitle=[]
     time_subtitle = swt.get_large_audio_transcription('static'+'/'+path)
     time_subtitle.append(path)
@@ -15,4 +14,7 @@ def success():
 		
 if __name__ == '__main__':
    app.run(debug = True)
+
+
+
 
