@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request
 from werkzeug.utils import secure_filename
-import large_wav_to_text as lwt
 import subtitle_with_threading as swt
 app = Flask(__name__, static_folder='static')
   
