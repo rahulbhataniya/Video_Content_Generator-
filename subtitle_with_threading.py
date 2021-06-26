@@ -33,11 +33,10 @@ def get_large_audio_transcription(path_target):
     #time.sleep(2)
     os.system(f'cmd /c " ffmpeg -i {path_target} -codec:a libmp3lame -qscale:a 2 {audio_filename}"')
 
-    path=audio_filename
 
     # open the audio file using pydub -ab 256
 
-    sound = AudioSegment.from_wav(path)  
+    sound = AudioSegment.from_wav(audio_filename)  
     # split audio sound where silence is 700 miliseconds or more and get chunks
     start_end_time,chunks = silence_copy.split_on_silence(sound,
         # experiment with this value for your target audio file
