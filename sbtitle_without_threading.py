@@ -96,7 +96,7 @@ def get_large_audio_transcription(path_target):
     #################################################################################
     final_start_end_subtitle=[]
     obj=kwe.key_word_find(whole_text)    ##by importing code of key_word_extraction
-    final_keyword=obj.get_exercise_n()      ## get top x key_word
+    final_keyword=obj.get_top_n(10)      ## get top x key_word
    
     ## select only thos subtitle that have keyword 
     for l in start_end_subtitle:         
@@ -116,7 +116,7 @@ def delete_files_folder(audio_filename, folder_name):
 
 if __name__=='__main__':
     begin = time.time()
-    path = 'static/que_ans_video.mp4'
+    path = 'vd_1.mp4'
     print("\nFull text:", get_large_audio_transcription(path))
     end = time.time()
     print(f'total time {end-begin}')

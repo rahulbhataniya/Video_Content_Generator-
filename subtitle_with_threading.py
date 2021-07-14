@@ -84,33 +84,21 @@ def get_large_audio_transcription(path_target):
 
     with concurrent.futures.ThreadPoolExecutor() as executor:
         executor.map(process_chunk,repeat(folder_name),start_end_chunk_index)    
-    wh_question_word=['Q','What','When','Where','Which','Who','Why','How','Explanation','Problem','Question','Solve','Find']
-    answord_word=['Solution','Answer','Ans','Following']
+   
     final_start_end_subtitle=[]
-    #obj=kwe.key_word_find(whole_text)    ##by importing code of key_word_extraction
-    #final_keyword=obj.get_exercise_n()      ## get top x key_word
+    obj=kwe.key_word_find(whole_text)    ##by importing code of key_word_extraction
+    final_keyword=obj.get_top_n(10)      ## get top x key_word
 
     print('############ final keyword ################# ')
-    #print(final_keyword)
-    ##select only thos subtitle that have keyword 
-    #print(start_end_subtitle)
+    print(final_keyword)
+    ## select only thos subtitle that have keyword 
     for l in start_end_subtitle:         
-        for word in wh_question_word:
+        for word in final_keyword:
             if word in l[2]:
-                l[2]=" Ques. "+l[2]
+                #print(word)
                 final_start_end_subtitle.append(l)
-                break
-    '''
-    for l in start_end_subtitle:         
-        for word in answord_word:
-            if word in l[2]:
-                l[2]=" Ans. "+l[2]
-                final_start_end_subtitle.append(l)
-                break
-    '''
-    
+                break 
     final_start_end_subtitle.sort()
-    print(final_start_end_subtitle)
     delete_files_folder(audio_filename, folder_name)
     return final_start_end_subtitle
 
