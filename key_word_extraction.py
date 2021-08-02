@@ -62,9 +62,14 @@ class key_word_find():
         ##7. Function to check if the word is present in a sentence list
 
         def check_sent(self,word, sentences): 
-            self.final = [all([w in x for w in word]) for x in sentences] 
-            self.sent_len = [sentences[i] for i in range(0, len(self.final)) if self.final[i]]
-            return int(len(self.sent_len))
+            count=1
+            for sent in sentences:
+                if word in sent:
+                    count=count+1
+            #self.final = [all([w in x for w in word]) for x in sentences] 
+            #self.sent_len = [sentences[i] for i in range(0, len(self.final)) if self.final[i]]
+            return count
+            #return int(len(self.sent_len))
         
 
         
@@ -86,7 +91,7 @@ class key_word_find():
  #11. Get the top 5 words of significance
 if __name__ == '__main__':
     #get_top_n(tf_idf_score, 20)
-    text='''I am from speak english with vanessa vanessa vanessa vanessa vanessa da com.You are so lovely.
+    text='''I am from speak english with vanessa da com.You are so lovely.
     So i get emails from students telling me when i am so glad i canunderstand everything you say.
     Putra night charan in english tv show and i can understand anything.Does this mean that your speak 
     in floor.Devika question.I want to make sure the you know exactly the truth.What's the next step when we 

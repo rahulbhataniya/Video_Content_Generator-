@@ -9,6 +9,7 @@ import requests
 import concurrent.futures
 from itertools import repeat
 import silence_copy
+import YAKE_keyword_find as ykf
 
 # create a speech recognition object
 r = sr.Recognizer()
@@ -23,7 +24,7 @@ os.system(f'cmd /c " ffmpeg -i {vedio_filename} -vn {filename}"')
 
 # a function that splits the audio file into chunks
 # and applies speech recognition
-def get_large_audio_transcription(path_target):
+def get_large_audio_transcription(path_target,keyword_algo):
     """
     Splitting the large audio file into chunks
     and apply speech recognition on each of these chunks
@@ -32,7 +33,6 @@ def get_large_audio_transcription(path_target):
     print("file name : ",audio_filename)
     #time.sleep(2)
     os.system(f'cmd /c " ffmpeg -i {path_target} -codec:a libmp3lame -qscale:a 2 {audio_filename}"')
-
 
     # open the audio file using pydub -ab 256
 
@@ -51,7 +51,6 @@ def get_large_audio_transcription(path_target):
     start_end_chunk = [[t , ch] for t, ch in zip(start_end_time,chunks)]
     start_end_chunk_index=list(enumerate(start_end_chunk))
     # value are in the form [( index,[ [start_time,end_time] ,chunk ])]
-    
     folder_name = path_target.split('.')[0]
     # create a directory to store the audio chunks
     if not os.path.isdir(folder_name):
@@ -86,9 +85,12 @@ def get_large_audio_transcription(path_target):
         executor.map(process_chunk,repeat(folder_name),start_end_chunk_index)    
    
     final_start_end_subtitle=[]
-    obj=kwe.key_word_find(whole_text)    ##by importing code of key_word_extraction
-    final_keyword=obj.get_top_n(10)      ## get top x key_word
-
+    if(keyword_algo=='tf_idf'):
+        obj=kwe.key_word_find(whole_text)    ##by importing code of key_word_extraction
+        final_keyword=obj.get_top_n(10)      ## get top x key_word
+    else:
+        final_keyword=ykf.find_key_word(1,0.9,whole_text,10)
+    
     print('############ final keyword ################# ')
     print(final_keyword)
     ## select only thos subtitle that have keyword 
@@ -111,6 +113,6 @@ def delete_files_folder(audio_filename, folder_name):
 if __name__=='__main__':
     begin = time.time()
     path = 'static/vd_2.mp4'
-    print("\nFull text:", get_large_audio_transcription(path))
+    print("\nFull text:", get_large_audio_transcription(path,'tf_idf'))
     end = time.time()
     print(f'total time {end-begin}')
